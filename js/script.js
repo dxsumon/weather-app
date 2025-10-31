@@ -90,20 +90,7 @@ function showError() {
 }
 
 function updateBackgroundColor(weatherCondition) {
-    // Remove any existing weather effects or classes
-    const existingEffect = document.querySelector('.weather-effect');
-    if (existingEffect) {
-        existingEffect.remove();
-    }
-    
-    // Remove any weather-related classes
-    document.body.classList.remove('clear-sky', 'clouds', 'rain', 'snow', 'thunderstorm');
-    
-    // Clear any previously set background styles
-    document.body.style.background = '';
-    document.body.style.filter = '';
-    
-    // Keep only the original background image
+    // Just ensure the background image stays consistent
     document.body.style.backgroundImage = "url('../images/login-bg.jpg')";
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center';
@@ -165,6 +152,8 @@ function updateWeatherUI(weatherData, forecastData) {
     weatherConditionElement.textContent = weatherData.weather[0].description;
     humidityElement.textContent = `${weatherData.main.humidity}%`;
     windSpeedElement.textContent = `${(weatherData.wind.speed * 3.6).toFixed(1)} km/h`;
+
+
     
     // Update weather icon
     const iconCode = weatherData.weather[0].icon;
