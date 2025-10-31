@@ -23,18 +23,37 @@ const tomorrowTempElement = document.getElementById('tomorrowTemp');
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Load last searched city from localStorage
-    const lastCity = localStorage.getItem('lastCity');
-    if (lastCity) {
-        cityInput.value = lastCity;
-        getWeatherData(lastCity);
-    }
+    // Show initial loading spinner
+    showLoading();
+    setTimeout(() => {
+        hideLoading();
+        // Load last searched city from localStorage
+        const lastCity = localStorage.getItem('lastCity');
+        if (lastCity) {
+            cityInput.value = lastCity;
+            getWeatherData(lastCity);
+        }
+    }, 1000);
 });
+
+function showEmptyInputError() {
+    errorMessage.textContent = 'Please enter a city name';
+    errorMessage.style.display = 'block';
+    weatherCard.style.display = 'none';
+    
+    // Show error for 3 seconds
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+        errorMessage.textContent = 'City not found. Please try again.'; // Reset error message
+    }, 3000);
+}
 
 searchBtn.addEventListener('click', () => {
     const city = cityInput.value.trim();
     if (city) {
         getWeatherData(city);
+    } else {
+        showEmptyInputError();
     }
 });
 
@@ -43,6 +62,8 @@ cityInput.addEventListener('keypress', (e) => {
         const city = cityInput.value.trim();
         if (city) {
             getWeatherData(city);
+        } else {
+            showEmptyInputError();
         }
     }
 });
@@ -61,6 +82,11 @@ function hideLoading() {
 function showError() {
     errorMessage.style.display = 'block';
     weatherCard.style.display = 'none';
+    
+    // Show error for 3 seconds
+    setTimeout(() => {
+        errorMessage.style.display = 'none';
+    }, 3000);
 }
 
 function updateBackgroundColor(weatherCondition) {
@@ -94,14 +120,19 @@ async function getWeatherData(city) {
     showLoading();
 
     try {
-        // Current Weather
-        const weatherResponse = await fetch(`${WEATHER_API_BASE}?q=${city}&appid=${API_KEY}&units=metric`);
-        if (!weatherResponse.ok) throw new Error('City not found');
-        const weatherData = await weatherResponse.json();
+        // Parallel fetch requests with minimum loading time of 1.5 seconds
+        const [weatherResponse, forecastResponse] = await Promise.all([
+            fetch(`${WEATHER_API_BASE}?q=${city}&appid=${API_KEY}&units=metric`),
+            fetch(`${FORECAST_API_BASE}?q=${city}&appid=${API_KEY}&units=metric`),
+            new Promise(resolve => setTimeout(resolve, 1500)) // 1.5 second delay
+        ]);
 
-        // Forecast
-        const forecastResponse = await fetch(`${FORECAST_API_BASE}?q=${city}&appid=${API_KEY}&units=metric`);
-        const forecastData = await forecastResponse.json();
+        if (!weatherResponse.ok) throw new Error('City not found');
+        
+        const [weatherData, forecastData] = await Promise.all([
+            weatherResponse.json(),
+            forecastResponse.json()
+        ]);
 
         // Update UI
         updateWeatherUI(weatherData, forecastData);
@@ -115,6 +146,9 @@ async function getWeatherData(city) {
         
         // Update background and weather effects
         updateBackgroundColor(weatherData.weather[0].main);
+        
+        // Clear search input after successful search
+        cityInput.value = '';
         
     } catch (error) {
         showError();
