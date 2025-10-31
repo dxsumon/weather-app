@@ -56,22 +56,42 @@ body {
     animation: snow-animation 5s linear infinite;
 }
 
-/* Weather card styling */
+/* Weather card styles */
 .weather-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.city-info h2 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.temperature-info h1 {
+    font-size: 4em;
+    margin: 15px 0;
 }
 
 .detail {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
 }
 
 .forecast-day {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
 }
 
 .forecast-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
 }
 
 /* Weather Animations */
@@ -388,10 +408,124 @@ body {
 
 /* Responsive Design */
 @media (max-width: 600px) {
+    body {
+        padding: 8px;
+        margin: 0;
+    }
+    
     .container {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .weather-card {
+        width: 100%;
+        padding: 20px;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    .city-info h2 {
+        font-size: 2.5em;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .temperature-info {
+        text-align: center;
+    }
+
+    .temperature-info h1 {
+        font-size: 4.5em;
+        margin: 10px 0;
+    }
+
+    .weather-condition {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+
+    /* Humidity and Wind Speed in one row */
+    .weather-details {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .detail {
+        flex: 1;
+        padding: 12px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+    }
+
+    .detail i {
+        font-size: 24px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .detail-info p:first-child {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .detail-info p:last-child {
+        font-size: 1.4em;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+
+    /* Yesterday and Tomorrow in one row */
+    .forecast {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .forecast-day {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+    }
+
+    .forecast-day h3 {
+        font-size: 1.1em;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .forecast-day p {
+        font-size: 1.6em;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+
+    .forecast-day {
+        text-align: center;
         padding: 15px;
-        margin: 10px;
-        width: calc(100% - 20px);
+    }
+
+    .forecast-day h3 {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+        color: #666;
+    }
+
+    .forecast-day p {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #333;
     }
 
     /* Header section */
@@ -520,10 +654,46 @@ body {
 
 /* Extra small devices */
 @media (max-width: 380px) {
-    .container {
-        padding: 10px;
-        margin: 5px;
+    .weather-card {
+        padding: 15px;
     }
+
+    .city-info h2 {
+        font-size: 2.2em;
+    }
+
+    .temperature-info h1 {
+        font-size: 4em;
+    }
+
+    .weather-condition {
+        font-size: 1.3em;
+    }
+
+    .detail {
+        padding: 12px;
+    }
+
+    .detail i {
+        font-size: 24px;
+    }
+
+    .detail-info p:first-child {
+        font-size: 0.9em;
+    }
+
+    .detail-info p:last-child {
+        font-size: 1.3em;
+    }
+
+    .forecast-day h3 {
+        font-size: 1.1em;
+    }
+
+    .forecast-day p {
+        font-size: 1.6em;
+    }
+}
 
     .main-heading {
         font-size: 1.5em;
@@ -561,8 +731,6 @@ body {
         min-width: 90px;
         padding: 8px;
     }
-}
-
     .forecast-container {
         padding: 10px;
     }
