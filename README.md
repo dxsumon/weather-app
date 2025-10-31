@@ -122,12 +122,7 @@ You can customize the application by:
 - Icons from [Font Awesome](https://fontawesome.com/)
 - Fonts from [Google Fonts](https://fonts.google.com/)
 
-## 👥 Author
-
-- **Course Name**: Web Development
-- **Trainer**: Abdullah Al Mamun
-
-## 📄 License
+##  License
 
 This project is open source and available under the [MIT License](LICENSE).
 
